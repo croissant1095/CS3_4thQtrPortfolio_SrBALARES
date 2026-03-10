@@ -7,8 +7,21 @@ label, input, select, textarea {
     margin: 5px 0;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"]{
     width: 300px;
+    padding: 8px 12px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+select {
+    width: 120px;
     padding: 8px 12px;
     font-size: 16px;
     box-sizing: border-box;
@@ -35,4 +48,10 @@ input[type="submit"] {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+table, th, td {
+    border: 1px solid black; 
+    padding: 8px;
+    border-collapse: collapse;
 }
