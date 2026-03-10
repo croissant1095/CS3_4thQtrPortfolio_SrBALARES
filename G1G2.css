@@ -1,0 +1,38 @@
+* {
+    font-family: 'Nunito', Arial, sans-serif;
+    background-color: azure;
+}
+
+label, input, select, textarea {
+    margin: 5px 0;
+}
+
+input[type="text"], input[type="number"] {
+    width: 300px;
+    padding: 8px 12px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #0078d7;
+    box-shadow: 0 0 4px #0078d733;
+    background-color: #fff;
+}
+
+input[type="submit"] {
+    background-color: #0078d7;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
