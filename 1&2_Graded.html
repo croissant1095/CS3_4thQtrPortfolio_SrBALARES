@@ -11,14 +11,14 @@
     <body>
         <h3>Movie Addition Form</h3>
         <form>
-            <label for="movie-name">Movie Name:</label><br>
-            <input type="text" id="movie-name" name="movie-name" required>
+            <label for="movieName">Movie Name:</label><br>
+            <input type="text" id="movieName" name="movieName" required>
             <br>
-            <label for="movie-year">Year Created:</label><br>
-            <input type="number" id="movie-year" name="movie-year" required>
+            <label for="movieYear">Year Created:</label><br>
+            <input type="number" id="movieYear" name="movieYear" required>
             <br>
-            <label for="movie-genre">Genre:</label><br>
-            <select name="movie-genre" id="movie-genre" required>
+            <label for="movieGenre">Genre:</label><br>
+            <select name="movieGenre" id="movieGenre" required>
                 <option value=""> --Select-- </option>
                 <option value="Action">Action</option>
                 <option value="Horror">Horror</option>
@@ -44,17 +44,18 @@
             </tbody>
         </table>
         <script>
+            const KEY = "movies"
             function loadMovies() {
-                const raw = localStorage.getItem("movies");
+                const raw = localStorage.getItem(KEY);
                 return raw ? JSON.parse(raw) : [];
             }
 
             function saveMovies(movies) {
-                localStorage.setItem("movies", JSON.stringify(movies));
+                localStorage.setItem(KEY, JSON.stringify(movies));
             }
 
-            // found an alternative sol'n for rendering table :)
-            function renderMoviesTable() {
+            // found an alternative sol'n with querySelector + forEach
+            function loadMovieList() {
                 const movies = loadMovies();
                 const tbody = document.querySelector('#movies-table tbody');
                 tbody.innerHTML = '';
@@ -71,9 +72,9 @@
             }
             document.querySelector('form').addEventListener('submit', function(event) {
                 event.preventDefault();
-                const name = document.getElementById('movie-name').value.trim();
-                const year = document.getElementById('movie-year').value.trim();
-                const genre = document.getElementById('movie-genre').value.trim();
+                const name = document.getElementById('movieName').value.trim();
+                const year = document.getElementById('movieYear').value.trim();
+                const genre = document.getElementById('movieGenre').value.trim();
                 const movieObj = {
                     name: name, 
                     year: year,
@@ -83,10 +84,10 @@
                 let moviesCurrent = loadMovies();
                 moviesCurrent.push(movieObj);
                 saveMovies(moviesCurrent);
-                renderMoviesTable();
+                loadMovieList();
                 event.target.reset();
             });
-            window.addEventListener('DOMContentLoaded', renderMoviesTable);
+            window.addEventListener('DOMContentLoaded', loadMovieList);
         </script>
     </body>
 
