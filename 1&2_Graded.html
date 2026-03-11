@@ -72,16 +72,15 @@
             }
             document.querySelector('form').addEventListener('submit', function(event) {
                 event.preventDefault();
-                const name = document.getElementById('movieName').value.trim();
-                const year = document.getElementById('movieYear').value.trim();
-                const genre = document.getElementById('movieGenre').value.trim();
+                const name = document.getElementById('movieName').value;
+                const year = document.getElementById('movieYear').value;
+                const genre = document.getElementById('movieGenre').value;
                 const movieObj = {
                     name: name, 
                     year: year,
                     genre: genre
                 };
-                console.log(movieObj)
-                let moviesCurrent = loadMovies();
+                const moviesCurrent = loadMovies();
                 moviesCurrent.push(movieObj);
                 saveMovies(moviesCurrent);
                 loadMovieList();
