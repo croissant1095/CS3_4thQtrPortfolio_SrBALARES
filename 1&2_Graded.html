@@ -46,7 +46,8 @@
                     <th>Name</th>
                     <th>Year</th>
                     <th>Genre</th>
-                    <th>Actions</th>
+                    <th>Rating</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="body">
@@ -97,11 +98,17 @@
 
                 for (let i = 0; i < movies.length; i++) {
                     const movie = movies[i];
+                    // Generate stars for rating
+                    const filledStars = '★'.repeat(movie.rating || 0);
+                    const emptyStars = '☆'.repeat(5 - (movie.rating || 0));
+                    const starsDisplay = filledStars + emptyStars;
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${movie.name}</td>
                         <td>${movie.year}</td>
                         <td>${movie.genre}</td>
+                        <td>${starsDisplay}</td>
                         <td><button onclick="deleteMovie(${i})">Delete</button></td>
                     `;
                     tbody.appendChild(row);
