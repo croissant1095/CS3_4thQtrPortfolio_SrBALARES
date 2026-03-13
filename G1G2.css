@@ -53,3 +53,15 @@ table, th, td {
     padding: 8px;
     border-collapse: collapse;
 }
+
+.star {
+    font-size: 2em;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.star.selected,
+.star:hover,
+.star:hover ~ .star {
+    color: #FFD700;
+}

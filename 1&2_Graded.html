@@ -28,6 +28,14 @@
                 <option value="Sci-Fi">Sci-Fi</option>
                 <option value="Animation">Animation</option>
             </select><br>
+            <div id="star_rating" style="margin-bottom: 12px;">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+                <input type="hidden" id="movieRating" name="movieRating" value="0">
+            </div>
             <input type="submit" value="Add Movie">
             <br>
         </form><br>
@@ -38,9 +46,11 @@
                     <th>Name</th>
                     <th>Year</th>
                     <th>Genre</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="body">
+            
             </tbody>
         </table>
         <script>
@@ -54,31 +64,70 @@
                 localStorage.setItem(KEY, JSON.stringify(movies));
             }
 
+            const stars = document.querySelectorAll('#star_rating .star');
+            const ratingInput = document.getElementById('movieRating');
+            let currentRating = 0;
+
+            for (const star of stars) {
+                star.addEventListener('mouseover', function() {
+                    const val = parseInt(this.getAttribute('data-value'));
+                    highlightStars(val);
+                });
+                star.addEventListener('mouseout', function() {
+                    highlightStars(currentRating);
+                });
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-value'));
+                    ratingInput.value = currentRating;
+                    highlightStars(currentRating);
+                });
+            }
+
+            function highlightStars(rating) {
+                stars.forEach(star => {
+                    star.classList.toggle('selected', parseInt(star.getAttribute('data-value')) <= rating);
+                });
+            }
+
             // found an alternative sol'n with querySelector + forEach
             function loadMovieList() {
                 const movies = loadMovies();
-                const tbody = document.querySelector('#movies-table tbody');
+                const tbody = document.getElementById('body');
                 tbody.innerHTML = '';
 
-                movies.forEach(movie => {
+                movies.forEach((movie, i) => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${movie.name}</td>
                         <td>${movie.year}</td>
                         <td>${movie.genre}</td>
+                        <td><button onclick="deleteMovie(${i})">Delete</button></td>
                     `;
                     tbody.appendChild(row);
                 });
             }
+
+
+            function deleteMovie(index) {
+                if (window.confirm('Are you sure you want to delete this movie?')) {
+                    const movies = loadMovies();
+                    movies.splice(index, 1);
+                    saveMovies(movies);
+                    loadMovieList();
+                }
+            }
+
             document.querySelector('form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 const name = document.getElementById('movieName').value;
                 const year = document.getElementById('movieYear').value;
                 const genre = document.getElementById('movieGenre').value;
+                const rating = parseInt(document.getElementById('movieRating').value, 10);
                 const movieObj = {
                     name: name, 
                     year: year,
-                    genre: genre
+                    genre: genre,
+                    rating: rating
                 };
                 const moviesCurrent = loadMovies();
                 moviesCurrent.push(movieObj);
