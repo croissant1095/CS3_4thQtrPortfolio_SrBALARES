@@ -95,7 +95,8 @@
                 const tbody = document.getElementById('body');
                 tbody.innerHTML = '';
 
-                movies.forEach((movie, i) => {
+                for (let i = 0; i < movies.length; i++) {
+                    const movie = movies[i];
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${movie.name}</td>
@@ -104,7 +105,7 @@
                         <td><button onclick="deleteMovie(${i})">Delete</button></td>
                     `;
                     tbody.appendChild(row);
-                });
+                }
             }
 
 
@@ -119,19 +120,35 @@
 
             document.querySelector('form').addEventListener('submit', function(event) {
                 event.preventDefault();
+                let movies = loadMovies();
                 const name = document.getElementById('movieName').value;
                 const year = document.getElementById('movieYear').value;
                 const genre = document.getElementById('movieGenre').value;
                 const rating = parseInt(document.getElementById('movieRating').value, 10);
-                const movieObj = {
-                    name: name, 
-                    year: year,
-                    genre: genre,
-                    rating: rating
-                };
-                const moviesCurrent = loadMovies();
-                moviesCurrent.push(movieObj);
-                saveMovies(moviesCurrent);
+                let existingIndex = -1;
+                for (let i = 0; i < movies.length; i++) {
+                    if (movies[i].name && movies[i].name.toLowerCase() === name.toLowerCase()) {
+                        existingIndex = i;
+                        break;
+                    }
+                }
+
+                if (existingIndex !== -1) {
+                    // Update existing movie
+                    var oldMovie = movies[existingIndex];
+                    var oldRating = oldMovie.rating || 0;
+                    var avgRating = Math.round((oldRating + rating) / 2);
+                    movies[existingIndex] = {
+                        name: name,
+                        year: year,
+                        genre: genre,
+                        rating: avgRating
+                    };
+                } else {
+                    // Add new movie
+                    movies.push({ name: name, year: year, genre: genre, rating: rating });
+                }
+                saveMovies(movies);
                 loadMovieList();
                 event.target.reset();
             });
