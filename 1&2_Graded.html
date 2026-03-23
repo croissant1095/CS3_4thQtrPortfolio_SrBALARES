@@ -98,7 +98,6 @@
 
                 for (let i = 0; i < movies.length; i++) {
                     const movie = movies[i];
-                    // Generate stars for rating
                     const filledStars = '★'.repeat(movie.rating || 0);
                     const emptyStars = '☆'.repeat(5 - (movie.rating || 0));
                     const starsDisplay = filledStars + emptyStars;
@@ -141,7 +140,6 @@
                 }
 
                 if (existingIndex !== -1) {
-                    // Update existing movie
                     var oldMovie = movies[existingIndex];
                     var oldRating = oldMovie.rating || 0;
                     var avgRating = Math.round((oldRating + rating) / 2);
@@ -152,7 +150,6 @@
                         rating: avgRating
                     };
                 } else {
-                    // Add new movie
                     movies.push({ name: name, year: year, genre: genre, rating: rating });
                 }
                 saveMovies(movies);
